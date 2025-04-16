@@ -74,9 +74,6 @@ class repo:
 
         self.update = self.last_update()
 
-
-
-
 if __name__ == '__main__':
     parent = Path(".", recursive=True)
     paths = list(parent.glob("*/Pkgfile"))
