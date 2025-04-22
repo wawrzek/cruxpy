@@ -1,0 +1,12 @@
+[project]
+name = "cruxpy"
+description = "Help build page for Crux ports repository"
+license = "GPL-3.0-only"
+version = "0.0.1"
+dependencies = [
+  "Pygit"
+]
+requires-python= ">=3.10"
+authors = [
+  { name = "Wawrzyniec Niewodniczański", email = "main@wawrzek.name" },
+]
