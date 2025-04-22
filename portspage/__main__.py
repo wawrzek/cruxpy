@@ -8,7 +8,8 @@ if __name__ == '__main__':
     parent = Path(".", recursive=True)
     paths = list(parent.glob("*/Pkgfile"))
 
-    with open("files/header.html") as f:
+
+    with open(Path(__file__).parent / "files/header.html") as f:
         header = f.read()
         output = header.splitlines()
 
