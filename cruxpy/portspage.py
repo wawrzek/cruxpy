@@ -1,6 +1,6 @@
 from datetime import datetime
 from pathlib import Path
-from cruxpy.repo import port
+from cruxpy.repo import port as cruxport
 
 
 class page:
@@ -29,7 +29,7 @@ class page:
                 ]
         for index, port in enumerate(self.ports):
             current = "even" if index % 2 == 0 else "odd"
-            p = port(port)
+            p = cruxport(port)
             line = f'<tr class="{current}"><td><a href="{p.url}">{p.name}</a></td><td><a href="./{p.name}">{p.version}</a></td><td>{p.description}</td><td>{p.update}</td></tr>'
             self.table.append(line)
         self.table.append("</table>")

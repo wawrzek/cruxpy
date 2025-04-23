@@ -4,7 +4,6 @@ name: Publish Python Package
 on:
   release:
     types: [created]
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
