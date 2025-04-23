@@ -17,7 +17,6 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
 include-package-data = true
-py_modules = ["portspage", "repo"]
 
 [tool.setuptools.package-data]
-"portspage"= ["files/*"]
+cruxpy= ["files/*"]
