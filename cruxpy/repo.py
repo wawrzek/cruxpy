@@ -1,7 +1,7 @@
 import git
 from datetime import datetime
 
-class repo:
+class port:
 
     def __init__(self, path):
         self.path= path
