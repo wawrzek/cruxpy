@@ -1,6 +1,6 @@
 [project]
 name = "cruxpy"
-description = "Help build page for Crux ports repository"
+description = "Help building a webpage for Crux ports repository"
 license = "GPL-3.0-only"
 version = "0.1.0"
 dependencies = [
