@@ -10,7 +10,7 @@ on:
 
 jobs:
   new-tag:
-    name: Tag api
+    name: New Tag on a new version
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -18,28 +18,29 @@ jobs:
         with:
           ssh-key: "${{ secrets.ED_25519 }}"
       - name: Get version from TOML
+        id: version
         run: |
           version=$(awk '/version/ {gsub("\"","") ; print $3}' pyproject.toml)
           echo "TAG_TOML=${version}" >> "$GITHUB_OUTPUT"
           echo "Version: ${version}"
       - name: Get latest git tag
-        id: tag-api
+        id: tag
         run: |
           git pull --tags
-          tag=$(git tag | awk -F- '/api/ {print $2}'| sort -V | tail -1)
+          tag=$(git tag |sort -V | tail -1)
           echo "TAG_GIT=${tag}" >> "$GITHUB_OUTPUT"
           echo "Tag: ${tag}"
       - name: Print versions
         run: |
-          echo "TOML: ${{ steps.version-api.outputs.TAG_TOML }}"
-          echo "GIT: ${{ steps.tag-api.outputs.TAG_GIT }}"
+          echo "TOML: ${{ steps.version.outputs.TAG_TOML }}"
+          echo "GIT: ${{ steps.tag.outputs.TAG_GIT }}"
       - name: Create new git tag
         if: >
-          steps.version-api.outputs.TAG_TOML
+          steps.version.outputs.TAG_TOML
           !=
-          steps.tag-api.outputs.TAG_GIT
+          steps.tag.outputs.TAG_GIT
         env:
-          NEW_TAG: ${{ steps.version-api.outputs.TAG_TOML }}
+          NEW_TAG: ${{ steps.version.outputs.TAG_TOML }}
         run: |
           git tag -f ${NEW_TAG}
           git push origin ${NEW_TAG}
