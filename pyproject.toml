@@ -2,7 +2,7 @@
 name = "cruxpy"
 description = "Help build page for Crux ports repository"
 license = "GPL-3.0-only"
-version = "0.0.8"
+version = "0.1.0"
 dependencies = [
   "GitPython"
 ]
@@ -10,6 +10,17 @@ requires-python= ">=3.10"
 authors = [
   { name = "Wawrzyniec Niewodniczański", email = "main@wawrzek.name" },
 ]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Operating System :: Linux :: Crux",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Topic :: Software Development :: Packaging Tools",
+]
+
+[project.urls]
+repository = "https://github.com/wawrzek/cruxpy"
 
 [build-system]
 requires = ["setuptools>=61.0"]

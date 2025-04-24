@@ -4,11 +4,17 @@ from cruxpy.repo import port as cruxport
 
 
 class page:
+    """
+    Class to handle website for portspage.
+    It takes a path with ports, obtain their information.
+    Then uses them with header and footer to prepare a page.
+
+    """
 
     def __init__(self, path=".", header=""):
 
         self.ports_dir = Path(path, recursive=True)
-        self.ports = list(self.ports_dir.glob("*/Pkgfile"))
+        self.ports = sorted(list(self.ports_dir.glob("*/Pkgfile")))
 
         if not header:
             self.__make_header(Path(__file__).parent / "files/header.html")
@@ -51,5 +57,8 @@ class page:
 
 
     def write(self,filepath='index.html'):
+        """
+        Write the page to the disk
+        """
         with open(filepath,'w') as f:
             f.write(self.content)

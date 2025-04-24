@@ -2,6 +2,11 @@ import git
 from datetime import datetime
 
 class port:
+    """
+    Class for a Crux port information
+    It takes the path to the Pkgfile and gather various informations,
+    based of package build information and metdata.
+    """
 
     def __init__(self, path):
         self.path= path
@@ -48,7 +53,6 @@ class port:
     def __make_description(self):
         return " ".join(self.fields["description"])
 
-
     def __make_source(self):
         s = self.fields["source"]
         s = s.strip("()")
@@ -63,7 +67,8 @@ class port:
         return "%s-%s"%(self.fields["version"], self.fields["release"])
 
     def last_update(self):
-       git_repo = git.Repo(self.path.parents[1])
-       commit = list(git_repo.iter_commits(paths=self.path.parts[-2],max_count=1))[0]
-       commit_date = datetime.fromtimestamp(commit.committed_date)
-       return commit_date
+       """Method to add the info about last update. It require git repo."""
+        git_repo = git.Repo(self.path.parents[1])
+        commit = list(git_repo.iter_commits(paths=self.path.parts[-2],max_count=1))[0]
+        commit_date = datetime.fromtimestamp(commit.committed_date)
+        return commit_date
