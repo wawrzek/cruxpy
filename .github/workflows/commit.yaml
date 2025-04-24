@@ -4,7 +4,7 @@ name: On every commit
 on:
   push:
     branchs:
-      - 'main'
+      - '**'
     tags:
       - '!**'
 
