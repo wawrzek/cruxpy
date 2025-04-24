@@ -3,9 +3,10 @@ name: On every commit
 
 on:
   push:
-    branch: main
-    tags-ignore:
-      - '**'
+    branchs:
+      - 'main'
+    tags:
+      - '!**'
 
 #permissions:
 #  id-token: write  # This is required for requesting the JWT
