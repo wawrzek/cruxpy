@@ -67,7 +67,7 @@ class port:
         return "%s-%s"%(self.fields["version"], self.fields["release"])
 
     def last_update(self):
-       """Method to add the info about last update. It require git repo."""
+        """Method to add the info about last update. It require git repo."""
         git_repo = git.Repo(self.path.parents[1])
         commit = list(git_repo.iter_commits(paths=self.path.parts[-2],max_count=1))[0]
         commit_date = datetime.fromtimestamp(commit.committed_date)
