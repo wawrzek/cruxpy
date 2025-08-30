@@ -1,4 +1,3 @@
-import git
 from datetime import datetime
 
 class port:
@@ -8,7 +7,7 @@ class port:
     based of package build information and metdata.
     """
 
-    def __init__(self, path):
+    def __init__(self, path, git_info=True):
         self.path= path
         self.pkgfile = str(path)
         self.__parse_pkgfile()
@@ -18,7 +17,9 @@ class port:
         self.url = self.__make_url()
         self.version = self.__make_version()
 
-        self.update = self.last_update()
+        if git_info:
+            import git
+            self.update = self.last_update()
 
     def __parse_pkgfile(self):
         fields_tech = [
@@ -61,7 +62,7 @@ class port:
         return s
 
     def __make_url(self):
-        return "".join(self.fields["url"]).strip()
+        return ":".join(self.fields["url"]).strip()
 
     def __make_version(self):
         return "%s-%s"%(self.fields["version"], self.fields["release"])

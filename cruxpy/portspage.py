@@ -27,11 +27,11 @@ class page:
 
 
 
-    def __make_table(self):
+    def __make_table(self, key="RWQXc2agtIcYBWpHqhhttRH+067uIV9sEkGPB2FT2uZRmFC712MDQF4Q"):
         self.table = [
                 '<table width="100%" cellspacing="0">',
                 '<tr class="header"><td colspan="4">',
-                '<strong>Signify public key:</strong> RWQXc2agtIcYBWpHqhhttRH+067uIV9sEkGPB2FT2uZRmFC712MDQF4Q</td></tr>',
+                '<strong>Signify public key:</strong>%s</td></tr>'%key,
                 ]
         for index, port in enumerate(self.ports):
             current = "even" if index % 2 == 0 else "odd"
