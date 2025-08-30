@@ -5,12 +5,11 @@ It takes a path to the port.
 Otherwise it is going to ask it.
 """
 
-from pprint import pprint
 from pathlib import Path
-
 import sys
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+from pprint import pprint
 from repo import port as cruxport
 
 port = sys.argv[1] if len(sys.argv) > 1 else input("Please specify the path to a port > ")

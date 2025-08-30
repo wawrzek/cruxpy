@@ -18,7 +18,6 @@ class port:
         self.version = self.__make_version()
 
         if git_info:
-            import git
             self.update = self.last_update()
 
     def __parse_pkgfile(self):
@@ -69,6 +68,7 @@ class port:
 
     def last_update(self):
         """Method to add the info about last update. It require git repo."""
+        import git
         git_repo = git.Repo(self.path.parents[1])
         commit = list(git_repo.iter_commits(paths=self.path.parts[-2],max_count=1))[0]
         commit_date = datetime.fromtimestamp(commit.committed_date)
