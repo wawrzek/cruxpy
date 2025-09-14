@@ -5,12 +5,11 @@ on:
   push:
     tags:
       - '[0-9]+.[0-9]+.[0-9]+'
-  permissions:
-    id-token: write  # This is required for requesting the JWT
-    contents: write  # This is required for creating a release
-
 jobs:
   release:
+    permissions:
+      id-token: write  # This is required for requesting the JWT
+      contents: write  # This is required for creating a release
     name: New Tag on a new version
     runs-on: ubuntu-latest
     steps:
