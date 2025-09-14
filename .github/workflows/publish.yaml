@@ -4,8 +4,8 @@ name: Publish Python Package
 on:
   workflow_run:
     workflows: [New release]
-  types:
-    - completed
+    types:
+      - completed
 jobs:
   deploy:
     runs-on: ubuntu-latest
