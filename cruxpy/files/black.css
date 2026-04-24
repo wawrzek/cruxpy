@@ -1,0 +1,32 @@
+body {
+	font-family: Verdana, sans-serif;
+	font-size: 85%;
+	padding: 2em;
+	color: #EEEEEE;
+}
+
+a {
+	color:  #3399FF;
+}
+
+table {
+	border: solid #3399FF 1px;
+	font-size: 85%;
+}
+
+td {
+	padding: 6px;
+}
+
+tr.header {
+	background-color: #333333;
+}
+tr.odd {
+	background-color: #000000;
+}
+tr.even {
+	background-color: #111111;
+	}
+
+
+/* vim: set ts=2 sw=2 noet: */

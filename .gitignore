@@ -44,3 +44,6 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+
+# Project special
+tests/temp
