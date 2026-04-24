@@ -22,7 +22,7 @@ class page:
         table = [
                 '<table width="100%" cellspacing="0">',
                 '<tr class="header"><td colspan="4">',
-                '<strong>Signify public key:</strong>%s</td></tr>'%key,
+                '<strong>Signify public key: </strong>%s</td></tr>'%key,
                 ]
         for index, port in enumerate(self.ports):
             current = "even" if index % 2 == 0 else "odd"

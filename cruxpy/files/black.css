@@ -3,6 +3,7 @@ body {
 	font-size: 85%;
 	padding: 2em;
 	color: #EEEEEE;
+	background-color: #000000;
 }
 
 a {
@@ -19,13 +20,13 @@ td {
 }
 
 tr.header {
-	background-color: #333333;
+	background-color: #111111;
 }
 tr.odd {
-	background-color: #000000;
+	background-color: #333333;
 }
 tr.even {
-	background-color: #111111;
+	background-color: #444444;
 	}
 
 
