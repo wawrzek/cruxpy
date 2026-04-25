@@ -14,5 +14,4 @@ else:
 
 page = page("../../wawrzek", style=style)
 page.write("/tmp/ports.html")
-
-shutil.copy(f"../cruxpy/files/{style}.css", "/tmp")
+page.write_style(style, "/tmp")
