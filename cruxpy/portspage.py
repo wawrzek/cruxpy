@@ -68,7 +68,7 @@ class page:
         with open(filepath,"w") as f:
             f.write(self.content)
 
-    def write_style(self, style, filepath):
+    def write_style(self, filepath='.'):
         source = Path(__file__).parent / f"files/{ style }.css"
         dest = Path (filepath) / f"{ style }.css"
         shutil.copy(source, dest)

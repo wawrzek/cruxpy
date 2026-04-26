@@ -12,3 +12,4 @@ from cruxpy.portspage import page
 
 page = page(path="../../../wawrzek")
 page.write()
+page.write_style('original')

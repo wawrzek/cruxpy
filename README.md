@@ -11,6 +11,7 @@ The class to prepare a website for a Crux ports repository.
 It takes the path to a directory with a collection and content of a page 'header', which is a html code over the table containing port informations.
 By default it looks for a collection in current foler `.`, and html from the `files/header.html` file.
 It can also copy the style file from the project repo to the selected location.
+This method requires a style name as an argument, but save the css file into the current location by default.
 
 ### port
 
