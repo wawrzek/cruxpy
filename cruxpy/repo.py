@@ -1,4 +1,5 @@
 from datetime import datetime
+from pathlib import Path
 
 class port:
     """
@@ -8,8 +9,27 @@ class port:
     """
 
     def __init__(self, path, git_info=True):
-        self.path= path
+        self.path = path
+        if not self.__check_path():
+            raise FileNotFoundError(f"{self.path} is not a file")
         self.pkgfile = str(path)
+
+        if git_info:
+            self.update = self.last_update()
+
+
+    def last_update(self):
+        """Method to add the info about last update. It require git repo."""
+        import git
+        git_repo = git.Repo(self.path.parents[1])
+        commit = list(git_repo.iter_commits(paths=self.path.parts[-2],max_count=1))[0]
+        commit_date = datetime.fromtimestamp(commit.committed_date)
+        return commit_date
+
+
+    def expose_pkgfile(self):
+        """Method to parse and expose package information stored in the Pkgfile."""
+
         self.__parse_pkgfile()
         self.name = self.fields["name"]
         self.description = self.__make_description()
@@ -17,8 +37,30 @@ class port:
         self.url = self.__make_url()
         self.version = self.__make_version()
 
-        if git_info:
-            self.update = self.last_update()
+
+    def __check_path(self):
+        return Path(self.path).is_file()
+
+
+    def __make_description(self):
+        return " ".join(self.fields["description"])
+
+
+    def __make_source(self):
+        s = self.fields["source"]
+        s = s.strip("()")
+        s = s.replace("$name",self.fields["name"])
+        s = s.replace("$version",self.fields["version"])
+        return s
+
+
+    def __make_url(self):
+        return ":".join(self.fields["url"]).strip()
+
+
+    def __make_version(self):
+        return "%s-%s"%(self.fields["version"], self.fields["release"])
+
 
     def __parse_pkgfile(self):
         fields_tech = [
@@ -50,26 +92,4 @@ class port:
                 self.fields[words[0].strip('#').lower().strip()] = words[1:]
 
 
-    def __make_description(self):
-        return " ".join(self.fields["description"])
 
-    def __make_source(self):
-        s = self.fields["source"]
-        s = s.strip("()")
-        s = s.replace("$name",self.fields["name"])
-        s = s.replace("$version",self.fields["version"])
-        return s
-
-    def __make_url(self):
-        return ":".join(self.fields["url"]).strip()
-
-    def __make_version(self):
-        return "%s-%s"%(self.fields["version"], self.fields["release"])
-
-    def last_update(self):
-        """Method to add the info about last update. It require git repo."""
-        import git
-        git_repo = git.Repo(self.path.parents[1])
-        commit = list(git_repo.iter_commits(paths=self.path.parts[-2],max_count=1))[0]
-        commit_date = datetime.fromtimestamp(commit.committed_date)
-        return commit_date

@@ -29,6 +29,9 @@ content-type = "text/markdown"
 [project.urls]
 repository = "https://github.com/wawrzek/cruxpy"
 
+[project.optional-dependencies]
+test = ["pytest"]
+
 [build-system]
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
