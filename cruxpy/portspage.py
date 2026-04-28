@@ -13,35 +13,56 @@ class page:
 
     """
 
-    def __init__(self, path=".", header="", style="original"):
+    def __init__(self, path=".", header="", style="original", git_info=True):
         self.ports_dir = Path(path, recursive=True)
-        self.ports = sorted(list(self.ports_dir.glob("*/Pkgfile")))
-        self.content = self.__generate_page(header, style)
+        if not self.__check_path():
+            raise FileNotFoundError(f"{self.ports_dir} is not a directory")
+        self.git_info = git_info
+        self.header_file = header
+        self.style = style
+
+    def read_repo(self):
+        """
+        Method to read ports from the repo
+        """
+        ports_list = sorted(list(self.ports_dir.glob("*/Pkgfile")))
+        self.ports = [cruxport(p, self.git_info) for p in ports_list]
+        for p in self.ports:
+            p.expose_pkgfile()
 
 
-    def __make_table(self, key="RWQXc2agtIcYBWpHqhhttRH+067uIV9sEkGPB2FT2uZRmFC712MDQF4Q"):
-        table = [
-                '<table width="100%" cellspacing="0">',
-                '<tr class="header"><td colspan="4">',
-                '<strong>Signify public key: </strong>%s</td></tr>'%key,
-                ]
-        for index, port in enumerate(self.ports):
-            current = "even" if index % 2 == 0 else "odd"
-            p = cruxport(port)
-            line = f'<tr class="{current}"><td><a href="{p.url}">{p.name}</a></td><td><a href="./{p.name}">{p.version}</a></td><td>{p.description}</td><td>{p.update}</td></tr>'
-            table.append(line)
-        table.append("</table>")
-        return table
+    def generate_page(self):
+        """
+        Method to generate the repository page
+        """
+        if not self.header_file:
+            header = self.__make_header(Path(__file__).parent / "files/header.html")
+        else:
+            header = self.__make_header(Path(header))
+        table = self.__make_table()
+        footer = self.__make_footer()
+        return "\n".join(header + table + footer)
 
-    def __make_header(self, file, style):
-        with open(file) as f:
-            content = f.read()
-            header = content.splitlines()
-        pattern=r'{{ style_name }}'
-        new_header = []
-        for line in header:
-            new_header.append(re.sub(pattern, style, line))
-        return new_header
+
+    def write(self, filepath="index.html"):
+        """
+        Method to write the page to the disk
+        """
+        with open(filepath,"w") as f:
+            f.write(self.generate_page())
+
+    def write_style(self, filepath='.'):
+        """
+        Method to write the css style on the disk
+        """
+        source = Path(__file__).parent / f"files/{ self.style }.css"
+        dest = Path (filepath) / f"{ self.style }.css"
+        shutil.copy(source, dest)
+
+
+    def __check_path(self):
+        return Path(self.ports_dir).is_dir()
+
 
     def __make_footer(self):
         footer = [
@@ -52,23 +73,31 @@ class page:
             ]
         return footer
 
-    def __generate_page(self, header, style):
-        if not header:
-            header = self.__make_header(Path(__file__).parent / "files/header.html", style)
-        else:
-            header = self.__make_header(Path(header), style)
-        table = self.__make_table()
-        footer = self.__make_footer()
-        return "\n".join(header + table + footer)
 
-    def write(self,filepath="index.html"):
-        """
-        Write the page to the disk
-        """
-        with open(filepath,"w") as f:
-            f.write(self.content)
+    def __make_header(self, file):
+        with open(file) as f:
+            content = f.read()
+            header = content.splitlines()
+        pattern=r'{{ style_name }}'
+        new_header = []
+        for line in header:
+            new_header.append(re.sub(pattern, self.style, line))
+        return new_header
 
-    def write_style(self, filepath='.'):
-        source = Path(__file__).parent / f"files/{ style }.css"
-        dest = Path (filepath) / f"{ style }.css"
-        shutil.copy(source, dest)
+
+    def __make_table(self, key="RWQXc2agtIcYBWpHqhhttRH+067uIV9sEkGPB2FT2uZRmFC712MDQF4Q"):
+        table = [
+                '<table width="100%" cellspacing="0">',
+                '<tr class="header"><td colspan="4">',
+                '<strong>Signify public key: </strong>%s</td></tr>'%key,
+                ]
+        for index, port in enumerate(self.ports):
+            current = "even" if index % 2 == 0 else "odd"
+            if self.git_info:
+                update = port.update
+            else:
+                update = "unknown"
+            line = f'<tr class="{current}"><td><a href="{port.url}">{port.name}</a></td><td><a href="./{port.name}">{port.version}</a></td><td>{port.description}</td><td>{update}</td></tr>'
+            table.append(line)
+        table.append("</table>")
+        return table

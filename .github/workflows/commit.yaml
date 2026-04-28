@@ -13,6 +13,23 @@ on:
 #  contents: write  # This is required for creating a release
 
 jobs:
+  pytest:
+    name: Run Pytest
+    runs-on: ubuntu latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ssh-key: "${{ secrets.ED_25519 }}"
+          fetch-depth: 0
+      - name: Install dependecies
+        run: |
+          pip install -r requirements.txt
+          pip install -e ".[test]"
+      - name: Run tests
+        run: |
+          pytest
+
   new-tag:
     name: New Tag on a new version
     runs-on: ubuntu-latest

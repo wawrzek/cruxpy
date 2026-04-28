@@ -90,6 +90,3 @@ class port:
             elif l.split(':')[0].strip() in _fields_meta:
                 words = l.split(":")
                 self.fields[words[0].strip('#').lower().strip()] = words[1:]
-
-
-
