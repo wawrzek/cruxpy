@@ -14,7 +14,7 @@ class page:
     """
 
     def __init__(self, path=".", header="", style="original", git_info=True):
-        self.ports_dir = Path(path, recursive=True)
+        self.ports_dir = Path(path)
         if not self.__check_path():
             raise FileNotFoundError(f"{self.ports_dir} is not a directory")
         self.git_info = git_info
